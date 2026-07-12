@@ -28,8 +28,6 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
-        with:
-          path: ovo
 
       - name: Validate input
         shell: bash
@@ -40,12 +38,12 @@ jobs:
             echo "Invalid simple-tag: ${SIMPLE_TAG}. Must be one of: ${VALID_TAGS[@]}"
             exit 1
           fi
-          if [ ! -d "ovo/ovo" ]; then
-            echo "Error: ovo/ovo directory does not exist"
+          if [ ! -d "ovo" ]; then
+            echo "Error: ovo directory does not exist"
             exit 2
           fi
-          if [ ! -f "ovo/ovo/Makefile" ]; then
-            echo "Error: ovo/ovo/Makefile does not exist"
+          if [ ! -f "ovo/Makefile" ]; then
+            echo "Error: ovo/Makefile does not exist"
             exit 3
           fi
 
@@ -79,7 +77,7 @@ jobs:
         shell: bash
         working-directory: android-kernel
         run: |
-          mv ../ovo/ovo common/drivers/ovo
+          cp -r ../ovo common/drivers/ovo
           echo "obj-m += ovo/" >> common/drivers/Makefile
           if [ -f common/android/gki_aarch64_modules ]; then
             echo "drivers/ovo/ovo.ko" >> common/android/gki_aarch64_modules
